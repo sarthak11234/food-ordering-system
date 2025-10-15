@@ -1,0 +1,38 @@
+<!-- views/menu.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Food Menu</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Our Menu</h1>
+      <nav>
+        <a href="/">Menu</a>
+        <a href="/cart"
+          >Cart (<%= cart.reduce((sum, item) => sum + item.quantity, 0) %>)</a
+        >
+        <a href="/orders">My Orders</a>
+      </nav>
+    </header>
+
+    <main class="menu-container">
+      <% foodItems.forEach(item => { %>
+      <div class="card">
+        <img src="<%= item.image %>" alt="<%= item.name %>" />
+        <div class="card-content">
+          <h3><%= item.name %></h3>
+          <p class="price">$<%= item.price.toFixed(2) %></p>
+          <form action="/cart/add" method="POST">
+            <input type="hidden" name="itemId" value="<%= item._id %>" />
+            <button type="submit" class="btn">Add to Cart</button>
+          </form>
+        </div>
+      </div>
+      <% }); %>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+<!-- views/orders.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order History</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Your Order History</h1>
+      <nav>
+        <a href="/">Menu</a>
+        <a href="/cart">Cart</a>
+        <a href="/orders">My Orders</a>
+      </nav>
+    </header>
+
+    <main class="orders-container">
+      <% if (orders.length > 0) { %> <% orders.forEach(order => { %>
+      <div class="order-card">
+        <h3>Order placed on: <%= new Date(order.date).toLocaleString() %></h3>
+        <ul>
+          <% order.items.forEach(item => { %>
+          <li>
+            <%= item.name %> (x<%= item.quantity %>) - $<%= (item.price *
+            item.quantity).toFixed(2) %>
+          </li>
+          <% }); %>
+        </ul>
+        <p class="order-total">Total: $<%= order.totalAmount.toFixed(2) %></p>
+      </div>
+      <% }); %> <% } else { %>
+      <p>You haven't placed any orders yet.</p>
+      <% } %>
+    </main>
+  </body>
+</html>
