@@ -19,10 +19,10 @@ router.get('/', async (req, res) => {
 // Route to seed the database with sample food items
 router.get('/seed', async (req, res) => {
   const sampleFoodItems = [
-    { name: 'Classic Burger', price: 8.99, image: '/images/burger.jpg', category: 'Burgers' },
-    { name: 'Margherita Pizza', price: 12.50, image: '/images/pizza.jpg', category: 'Pizzas' },
-    { name: 'Crispy Fries', price: 4.50, image: '/images/fries.jpg', category: 'Sides' },
-    { name: 'Caesar Salad', price: 7.25, image: '/images/salad.jpg', category: 'Salads' }
+    { name: 'Classic Burger', price: 8.99, image: '/images/burger.svg', category: 'Burgers' },
+    { name: 'Margherita Pizza', price: 12.50, image: '/images/pizza.svg', category: 'Pizzas' },
+    { name: 'Crispy Fries', price: 4.50, image: '/images/fries.svg', category: 'Sides' },
+    { name: 'Caesar Salad', price: 7.25, image: '/images/salad.svg', category: 'Salads' }
   ];
 
   try {

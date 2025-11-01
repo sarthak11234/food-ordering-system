@@ -87,4 +87,18 @@ router.post('/orders/new', async (req, res) => {
   }
 });
 
+// GET /orders - show all orders (for demo, shows all orders)
+router.get('/', async (req, res) => {
+  try {
+    const orders = await Order.find().sort({ createdAt: -1 });
+    // If you have an orders.ejs view:
+    res.render('orders', { orders });
+    // If you don't have orders.ejs, you can use:
+    // res.json(orders);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error fetching orders');
+  }
+});
+
 module.exports = router;

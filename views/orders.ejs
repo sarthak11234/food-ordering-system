@@ -8,32 +8,59 @@
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
-    <header>
-      <h1>Your Order History</h1>
-      <nav>
-        <a href="/">Menu</a>
-        <a href="/cart">Cart</a>
-        <a href="/orders">My Orders</a>
-      </nav>
+    <header class="site-header">
+      <div class="inner">
+        <div class="site-title">Food Ordering</div>
+        <nav class="site-nav">
+          <% if (currentUser) { %>
+          <span class="muted">Signed in as <%= currentUser.email %></span>
+          <a href="/">Home</a>
+          <a href="/menu">Menu</a>
+          <a href="/cart">Cart</a>
+          <% if (currentUser.isAdmin) { %><a href="/admin">Admin</a><% } %>
+          <a href="/auth/logout">Logout</a>
+          <% } else { %>
+          <a href="/">Home</a>
+          <a href="/auth/login">Login</a>
+          <a href="/auth/register">Register</a>
+          <% } %>
+        </nav>
+      </div>
     </header>
 
-    <main class="orders-container">
-      <% if (orders.length > 0) { %> <% orders.forEach(order => { %>
-      <div class="order-card">
-        <h3>Order placed on: <%= new Date(order.date).toLocaleString() %></h3>
-        <ul>
-          <% order.items.forEach(item => { %>
-          <li>
-            <%= item.name %> (x<%= item.quantity %>) - $<%= (item.price *
-            item.quantity).toFixed(2) %>
-          </li>
-          <% }); %>
-        </ul>
-        <p class="order-total">Total: $<%= order.totalAmount.toFixed(2) %></p>
-      </div>
-      <% }); %> <% } else { %>
-      <p>You haven't placed any orders yet.</p>
-      <% } %>
+    <main class="container">
+      <section class="card">
+        <h2 style="margin-bottom: 12px">Your Orders</h2>
+
+        <% if (!orders || orders.length === 0) { %>
+        <p>No orders found.</p>
+        <% } else { %>
+        <table class="table">
+          <tr>
+            <th>Order ID</th>
+            <th>Items</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+          <% orders.forEach(function(order){ %>
+          <tr>
+            <td><%= order._id %></td>
+            <td>
+              <ul style="margin: 0; padding-left: 16px">
+                <% order.items.forEach(function(it){ %>
+                <li><%= it.name %> x <%= it.quantity %></li>
+                <% }) %>
+              </ul>
+            </td>
+            <td>$<%= (order.total||0).toFixed(2) %></td>
+            <td><%= order.status %></td>
+            <td><%= new Date(order.createdAt).toLocaleString() %></td>
+          </tr>
+          <% }) %>
+        </table>
+        <% } %>
+      </section>
     </main>
   </body>
 </html>

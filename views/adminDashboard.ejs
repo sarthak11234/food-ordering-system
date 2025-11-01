@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="inner">
+      <div class="site-title">Admin Dashboard</div>
+      <nav class="site-nav">
+        <a href="/">Home</a>
+        <a href="/menu">Menu</a>
+        <a href="/auth/logout">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2 style="margin-bottom:12px;">Orders</h2>
+
+      <% if (!orders || orders.length === 0) { %>
+        <p>No orders yet.</p>
+      <% } else { %>
+        <table class="table">
+          <tr>
+            <th>Order ID</th>
+            <th>Items</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Update</th>
+          </tr>
+          <% orders.forEach(function(order){ %>
+            <tr>
+              <td><%= order._id %></td>
+              <td>
+                <% if (order.items && order.items.length) { %>
+                  <ul style="margin:0; padding-left:16px;">
+                    <% order.items.forEach(function(it){ %>
+                      <li><%= it.name %> x <%= it.qty || it.quantity || 1 %></li>
+                    <% }) %>
+                  </ul>
+                <% } else { %>
+                  <%= JSON.stringify(order.items) %>
+                <% } %>
+              </td>
+              <td>$<%= order.total || order.amount || 'N/A' %></td>
+              <td><%= order.status || 'pending' %></td>
+              <td>
+                <form method="POST" action="/admin/orders/<%= order._id %>/status" style="display:flex; gap:8px; align-items:center;">
+                  <select name="status" style="padding:6px; border-radius:6px; border:1px solid #e6e9ef;">
+                    <option value="pending" <%= order.status==='pending'?'selected':'' %>>Pending</option>
+                    <option value="preparing" <%= order.status==='preparing'?'selected':'' %>>Preparing</option>
+                    <option value="ready" <%= order.status==='ready'?'selected':'' %>>Ready</option>
+                    <option value="completed" <%= order.status==='completed'?'selected':'' %>>Completed</option>
+                    <option value="cancelled" <%= order.status==='cancelled'?'selected':'' %>>Cancelled</option>
+                  </select>
+                  <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </table>
+      <% } %>
+    </section>
+  </main>
+</body>
+</html>

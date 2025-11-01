@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Welcome</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="inner">
+        <div class="site-title">Food Ordering System</div>
+        <nav class="site-nav">
+          <% if (currentUser) { %>
+          <span class="muted">Signed in as <%= currentUser.email %></span>
+          <a href="/menu">Menu</a>
+          <a href="/cart">Cart</a>
+          <a href="/orders">My Orders</a>
+          <% if (currentUser.isAdmin) { %><a href="/admin">Admin</a><% } %>
+          <a href="/auth/logout">Logout</a>
+          <% } else { %>
+          <a href="/menu">Menu</a>
+          <a href="/auth/login">Login</a>
+          <a href="/auth/register">Register</a>
+          <% } %>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section
+        class="card"
+        style="display: flex; gap: 18px; align-items: center"
+      >
+        <div style="flex: 1">
+          <h2 style="margin-bottom: 8px">Order delicious food quickly</h2>
+          <p style="color: #6b7280; margin-bottom: 12px">
+            Browse our menu, add items to your cart, and place orders. Sign in
+            to save orders and access admin features.
+          </p>
+          <div>
+            <a class="btn btn-primary" href="/menu">View Menu</a>
+            <a
+              class="btn btn-outline"
+              href="/auth/register"
+              style="margin-left: 8px"
+              >Create Account</a
+            >
+          </div>
+        </div>
+        <div style="width: 220px">
+          <img
+            src="/images/hero-food.jpg"
+            alt="Food hero"
+            onerror="this.onerror=null;this.src='/images/placeholder.svg';"
+            style="
+              width: 100%;
+              border-radius: 8px;
+              object-fit: cover;
+              height: 120px;
+            "
+          />
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin Login</title>
+  </head>
+  <body>
+    <h1>Admin Login</h1>
+    <% if (typeof error !== 'undefined' && error) { %>
+    <p style="color: red"><%= error %></p>
+    <% } %>
+    <form method="POST" action="/admin/login">
+      <label>Email:</label><br />
+      <input type="email" name="email" required /><br />
+      <label>Password:</label><br />
+      <input type="password" name="password" required /><br /><br />
+      <button type="submit">Login</button>
+    </form>
+
+    <p>
+      Need an admin account? Seed a default admin (email: admin@example.com /
+      password: password123): <a href="/admin/seed">Seed admin</a>
+    </p>
+  </body>
+</html>

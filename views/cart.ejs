@@ -8,36 +8,61 @@
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
-    <header>
-      <h1>Your Shopping Cart</h1>
-      <nav>
-        <a href="/">Menu</a>
-        <a href="/cart">Cart</a>
-        <a href="/orders">My Orders</a>
-      </nav>
+    <header class="site-header">
+      <div class="inner">
+        <div class="site-title">Food Ordering</div>
+        <nav class="site-nav">
+          <a href="/">Home</a>
+          <a href="/menu">Menu</a>
+          <a href="/orders">My Orders</a>
+          <% if (currentUser) { %><a href="/auth/logout">Logout</a><% } else {
+          %><a href="/auth/login">Login</a><% } %>
+        </nav>
+      </div>
     </header>
 
-    <main class="cart-container">
-      <% if (cart.length > 0) { %>
-      <ul>
-        <% cart.forEach(item => { %>
-        <li>
-          <span><%= item.name %> (x<%= item.quantity %>)</span>
-          <span>$<%= (item.price * item.quantity).toFixed(2) %></span>
-        </li>
-        <% }); %>
-      </ul>
-      <hr />
-      <div class="cart-total">
-        <strong>Total:</strong>
-        <strong>$<%= totalAmount.toFixed(2) %></strong>
+    <main class="container cart-container">
+      <div class="card">
+        <h2 style="margin-bottom: 12px">Your Shopping Cart</h2>
+        <% if (!cart || cart.length === 0) { %>
+        <p>Your cart is empty. <a href="/menu">Go add some food!</a></p>
+        <% } else { %>
+        <ul style="list-style: none; margin: 0; padding: 0">
+          <% cart.forEach(item => { %>
+          <li
+            style="
+              display: flex;
+              justify-content: space-between;
+              padding: 8px 0;
+              border-bottom: 1px dashed #eef2f7;
+            "
+          >
+            <div>
+              <div style="font-weight: 700"><%= item.name %></div>
+              <div style="color: #6b7280; font-size: 0.9rem">
+                Qty: <%= item.quantity %>
+              </div>
+            </div>
+            <div style="font-weight: 700">
+              $<%= (item.price * item.quantity).toFixed(2) %>
+            </div>
+          </li>
+          <% }) %>
+        </ul>
+
+        <div class="cart-total" style="margin-top: 12px">
+          <div><strong>Total:</strong></div>
+          <div><strong>$<%= totalAmount.toFixed(2) %></strong></div>
+        </div>
+
+        <form action="/cart/checkout" method="POST" style="margin-top: 14px">
+          <button type="submit" class="btn btn-primary">Place Order</button>
+          <a href="/menu" class="btn btn-outline" style="margin-left: 8px"
+            >Continue Shopping</a
+          >
+        </form>
+        <% } %>
       </div>
-      <form action="/orders/new" method="POST">
-        <button type="submit" class="btn btn-primary">Place Order</button>
-      </form>
-      <% } else { %>
-      <p>Your cart is empty. <a href="/">Go add some food!</a></p>
-      <% } %>
     </main>
   </body>
 </html>
